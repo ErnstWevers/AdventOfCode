@@ -5,13 +5,14 @@ var inputText = [];
 readStream.on('data', function(chunk) {
   inputText+= chunk;
 })
+
 readStream.on('end', function() {
   console.log("the sum of the diff: " +sumDiff(prepareArray(inputText)))
   console.log("the sum of even diffs: " +sumDivide(prepareArray(inputText)))
 })
 
 function prepareArray(numberInput){
-  return numberInput.split("\n").map(row => row.split("\t"))
+  return numberInput.split("\n").map(row => row.split("\t").map(number => parseInt(number)))
 }
 
 function findDiff(row){
@@ -27,31 +28,22 @@ function sumDiff(array){
 function sumDivide(array){
   let sum = 0
   array.map( row => {
-    // console.log("this row: "+row)
+    sum += evenDivide(row)
   })
-  console.log("weird undefined: " +evenDivide(array[15]))
-  // console.log("evenDivide: " + evenDivide(array[15]))
   return sum
 }
 
 function evenDivide(row, rowSum = 0){
   var rowSum = rowSum || 0;
-  console.log(rowSum)
-  console.log(""+row)
   number = row.pop()
-  // console.log("the row : "+ row)
-  // console.log("the number : "+ number)
   row.map( entry => {
     if(entry%number === 0 || number%entry === 0){
-      rowSum = entry > number ? rowSum+(entry/number) : rowSum
-      rowSum = number > entry ? rowSum+(number/entry) : rowSum
-      rowSum = number === entry ? rowSum+1 : rowSum
+      rowSum = (entry < number) ? rowSum+(number/entry) : rowSum+(entry/number);
     }
   })
   if(row.length > 1){
-    evenDivide(row, rowSum)
+    return evenDivide(row, rowSum)
   } else {
-    console.log("final sum : " +rowSum)
     return rowSum
   }
 }
