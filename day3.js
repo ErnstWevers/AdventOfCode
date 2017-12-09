@@ -29,42 +29,60 @@ function findSteps(n){
 // console.log(findSteps())
 
 function populateSpiral(n){
-  spiral = [{'x': 0, 'y' : 0, 'v':0}]
+  spiral = [{'x': 0, 'y' : 0, 'v':1}]
   //array of arrays of the form [x, y, value]
   //spiral follows the form: n right, n up, n+1 left, n+1 down, repeat
   //value is mapped to the array
 
-  for(let i = 1 ; i < 3 ; i++){
+  for(let i = 1 ; i < 2 ; i++){
     //move right
     for(let a = 0 ; a < i ; a++){
       let nextBlock = Object.assign({},spiral[spiral.length-1])
       nextBlock.x++
       spiral.push(nextBlock)
+      populateValue(spiral)
     }
     //move up
     for(let a = 0 ; a < i ; a++){
       let nextBlock = Object.assign({},spiral[spiral.length-1])
       nextBlock.y++
       spiral.push(nextBlock)
+      populateValue(spiral)
     }
     //move left
     for(let a = 0 ; a <= i ; a++){
       let nextBlock = Object.assign({},spiral[spiral.length-1])
       nextBlock.x--
       spiral.push(nextBlock)
+      populateValue(spiral)
     }
     //move down
     for(let a = 0 ; a <= i ; a++){
       let nextBlock = Object.assign({},spiral[spiral.length-1])
       nextBlock.y--
       spiral.push(nextBlock)
+      populateValue(spiral)
     }
   }
   return spiral
 }
 
-function populateValue(x,y){
+function populateValue(spiral){
   //the value is the sum of the values where x and y don't deviate more than one
+  let target = spiral[spiral.length-1]
+  let value = 0
+  spiral.map( square => {
+    if(Math.abs(target.x - square.x) === 1 && target.y === square.y){
+      value += square.v
+    }
+    if(Math.abs(target.y - square.y) === 1 && target.x === square.x){
+      value += square.v
+    }
+    if(Math.abs(target.x - square.x) === 1 && Math.abs(target.y - square.y) === 1){
+      value += square.v
+    }
+    target.v = value
+  })
 }
 
 console.log(populateSpiral())
