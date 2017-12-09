@@ -34,7 +34,7 @@ function populateSpiral(n){
   //spiral follows the form: n right, n up, n+1 left, n+1 down, repeat
   //value is mapped to the array
 
-  for(let i = 1 ; i < 2 ; i++){
+  for(let i = 1 ; i < 4 ; i+=2){
     //move right
     for(let a = 0 ; a < i ; a++){
       let nextBlock = Object.assign({},spiral[spiral.length-1])
@@ -50,14 +50,14 @@ function populateSpiral(n){
       populateValue(spiral)
     }
     //move left
-    for(let a = 0 ; a <= i ; a++){
+    for(let a = 0 ; a < i+1 ; a++){
       let nextBlock = Object.assign({},spiral[spiral.length-1])
       nextBlock.x--
       spiral.push(nextBlock)
       populateValue(spiral)
     }
     //move down
-    for(let a = 0 ; a <= i ; a++){
+    for(let a = 0 ; a < i+1 ; a++){
       let nextBlock = Object.assign({},spiral[spiral.length-1])
       nextBlock.y--
       spiral.push(nextBlock)
