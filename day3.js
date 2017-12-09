@@ -1,4 +1,4 @@
-const targetSquare = 347991;
+const targetSquare = 265149;
 
 function findOuterSquare(n){
   let x = box = 0;
@@ -20,13 +20,10 @@ function findFromCorner(n){
 function findSteps(n){
   colStep = (findOuterSquare(n)-1)/2
   fromCor = findFromCorner(n)
-  console.log("something: " + fromCor)
   middleSq = (colStep + 1)
   rowStep = middleSq < fromCor ? fromCor - middleSq : middleSq - fromCor
   return(colStep + rowStep - 1)
 }
-
-// console.log(findSteps())
 
 function populateSpiral(n){
   spiral = [{'x': 0, 'y' : 0, 'v':1}]
@@ -34,35 +31,37 @@ function populateSpiral(n){
   //spiral follows the form: n right, n up, n+1 left, n+1 down, repeat
   //value is mapped to the array
 
-  for(let i = 1 ; i < 4 ; i+=2){
+  var size = 1
+  while(spiral[spiral.length-1].v < n){
     //move right
-    for(let a = 0 ; a < i ; a++){
+    for(let a = 0 ; a < size ; a++){
       let nextBlock = Object.assign({},spiral[spiral.length-1])
       nextBlock.x++
       spiral.push(nextBlock)
       populateValue(spiral)
     }
     //move up
-    for(let a = 0 ; a < i ; a++){
+    for(let a = 0 ; a < size ; a++){
       let nextBlock = Object.assign({},spiral[spiral.length-1])
       nextBlock.y++
       spiral.push(nextBlock)
       populateValue(spiral)
     }
     //move left
-    for(let a = 0 ; a < i+1 ; a++){
+    for(let a = 0 ; a < size+1 ; a++){
       let nextBlock = Object.assign({},spiral[spiral.length-1])
       nextBlock.x--
       spiral.push(nextBlock)
       populateValue(spiral)
     }
     //move down
-    for(let a = 0 ; a < i+1 ; a++){
+    for(let a = 0 ; a < size+1 ; a++){
       let nextBlock = Object.assign({},spiral[spiral.length-1])
       nextBlock.y--
       spiral.push(nextBlock)
       populateValue(spiral)
     }
+    size += 2
   }
   return spiral
 }
@@ -85,4 +84,12 @@ function populateValue(spiral){
   })
 }
 
-console.log(populateSpiral())
+function grabFirstBig(n){
+  var i = 0;
+  spiral = populateSpiral(n)
+  while( spiral[i].v < n ){ i++ }
+  return spiral[i].v
+}
+
+console.log(`the number of steps to get to ${targetSquare} is : ` + findSteps(targetSquare))
+console.log(`the first number larger than ${targetSquare} is  : ` + grabFirstBig(targetSquare))
