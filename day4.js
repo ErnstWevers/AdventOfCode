@@ -7,7 +7,8 @@ readStream.on('data', function(chunk) {
 });
 
 readStream.on('end', function() {
-  console.log(checkAll(prepareArray(input)))
+  // console.log(checkAll(prepareArray(input)))
+  console.log(checkAll(prepareAnagrams(prepareArray(input))))
 });
 
 function prepareArray(input){
@@ -28,4 +29,13 @@ function checkAll(input){
     validNum = checkPhrase(phrase) ? validNum+1 : validNum
   })
   return input.length-validNum
+}
+
+function prepareAnagrams(input){
+  input.map( phrase => {
+    phrase.map((word, index) => {
+      phrase[index] = word.split('').sort().join('').trim()
+    })
+  })
+  return input
 }
