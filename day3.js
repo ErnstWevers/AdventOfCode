@@ -1,37 +1,37 @@
 const targetSquare = 265149;
 
 function findOuterSquare(n){
-  let x = box = 0;
-  while(n > box**2){
-    x++
-    box = (2*x+1)
+  let x , box = 0;
+  while(n > box^2){
+    x++;
+    box = (2*x+1);
   }
-  return box
+  return box;
 }
 
 function findRemain(n){
-  return n - (findOuterSquare(n))**2
+  return n - (findOuterSquare(n))^2;
 }
 
 function findFromCorner(n){
-  return -(findRemain(n)%(findOuterSquare(n)-1))
+  return -(findRemain(n)%(findOuterSquare(n)-1));
 }
 
 function findSteps(n){
-  colStep = (findOuterSquare(n)-1)/2
-  fromCor = findFromCorner(n)
-  middleSq = (colStep + 1)
-  rowStep = middleSq < fromCor ? fromCor - middleSq : middleSq - fromCor
-  return(colStep + rowStep - 1)
+  let colStep = (findOuterSquare(n)-1)/2;
+  let fromCor = findFromCorner(n);
+  let middleSq = (colStep + 1);
+  let rowStep = middleSq < fromCor ? fromCor - middleSq : middleSq - fromCor;
+  return(colStep + rowStep - 1);
 }
 
 function populateSpiral(n){
-  spiral = [{'x': 0, 'y' : 0, 'v':1}]
-  //array of arrays of the form [x, y, value]
-  //spiral follows the form: n right, n up, n+1 left, n+1 down, repeat
+  let spiral = [{'x': 0, 'y' : 0, 'v':1}];
+  //array of arrays of the form [x coordinate, y coordinate, value]
+  //spiral follows the form: n right, n up, n+1 left, n+1 down, repeat with n+2
   //value is mapped to the array
 
-  var size = 1
+  var size = 1;
   while(spiral[spiral.length-1].v < n){
     //move right
     for(let a = 0 ; a < size ; a++){
@@ -86,10 +86,10 @@ function populateValue(spiral){
 
 function grabFirstBig(n){
   var i = 0;
-  spiral = populateSpiral(n)
+  let spiral = populateSpiral(n)
   while( spiral[i].v < n ){ i++ }
   return spiral[i].v
 }
 
-console.log(`the number of steps to get to ${targetSquare} is : ` + findSteps(targetSquare))
+console.log(`the number of steps to get to ${targetSquare} is : ` + findSteps(targetSquare));
 console.log(`the first number larger than ${targetSquare} is  : ` + grabFirstBig(targetSquare))

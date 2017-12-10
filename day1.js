@@ -18,13 +18,13 @@ function sumConsecutive(array){
     }
   }
   return sum
-};
+}
 
 function halfwayRound(array){
   let sum = 0;
   for(let i = 0; i<array.length;i++){
     //grab the value halfway around
-    halfwayNum = array[(i + ((array.length)/2)) % array.length]
+    let halfwayNum = array[(i + ((array.length)/2)) % array.length]
     if(array[i]===halfwayNum){
       sum+=array[i]
     }

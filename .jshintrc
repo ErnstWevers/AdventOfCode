@@ -1,0 +1,8 @@
+{
+  "esversion": 6,
+  "node": "true",
+  "asi": "false",
+  "eqeqeq" : "true",
+  "undef": "false",
+  "unused": "false"
+}
