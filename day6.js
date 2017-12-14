@@ -12,9 +12,6 @@ readStream.on('end', function() {
   console.log(cycleDist(prepareArray(input)))
 });
 
-console.log(cycleDist(testInput))
-console.log(cycled)
-
 function prepareArray(input){
   return input.split("\t").map(number => parseInt(number))
 }
@@ -46,5 +43,5 @@ function cycleDist(array){
     stop = cycled.includes(array.join(''))
     cycleNum++
   } while(!stop)
-  return cycleNum
+  return (cycleNum + " " + (cycleNum-cycled.indexOf(array.join(''))))
 }
