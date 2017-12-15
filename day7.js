@@ -12,7 +12,7 @@ readStream.on('end', function() {
   // console.log(checkAll(prepareArray(input)))
   // parseInput(input).map(row => console.log(row))
   processParents(parseInput(input))
-  console.log(tower)
+  // console.log(tower)
 });
 
 function parseInput(input){
@@ -24,6 +24,8 @@ function parseInput(input){
   })
 }
 
+var here = 0
+
 function processParents(input){
   //the first one has the weight
   input.map(row => {
@@ -33,9 +35,10 @@ function processParents(input){
 
     //see if it already exists, if it does, add the weight
     let possibleEntry = tower.filter(item => item.name === name)
-    if(possibleEntry.name){
+    if(typeof possibleEntry[0] !== 'undefined'){
       possibleEntry.weight = weight
     } else {
+      here++
       tower.push({name: name , weight: weight, parent: ''})
     }
 
@@ -49,8 +52,9 @@ function processChildren(row, name){
   row.map(entry => {
     //see if it already exists, if it does, add the parents
     let possibleEntry = tower.filter(item => item.name === entry)
-    if(possibleEntry.name){
-      possibleEntry.parent = name
+    // typeof myVar != 'undefined'
+    if(typeof possibleEntry[0] !== 'undefined'){
+      possibleEntry[0].parent = name
     } else {
       tower.push({name: entry, weight: 0, parent: name})
     }
