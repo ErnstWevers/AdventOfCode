@@ -8,38 +8,39 @@ readStream.on('data', function(chunk) {
 });
 
 readStream.on('end', function() {
-  // console.log(checkAll(prepareArray(input)))
-  // parseInput(input).map(row => console.log(row))
-  processParents(parseInput(input))
-  // processParents(input)
-  console.log(tower)
+  processEntries(parseInput(input))
+  // console.log(tower)
   console.log(tower.filter(item => item.parent === ''))
 });
 
 function parseInput(input){
-  //parses the input
+  //parses the input and returns a sorted collection of parent/child relationships
   return input.split('\n').map(row => row.split(', ')).map(row => row.map(entry => entry.split(' \-\> ')).reduce((prev,curr) => prev.concat(curr))).sort((i,j) => {
-    if(i.length > j.length){ return 1}
-    if(i.length < j.length){ return -1}
+    if(i.length > j.length){ return -1}
+    if(i.length < j.length){ return 1}
     return 0
   })
 }
 
-function processParents(input){
+function processEntries(input){
   //the first one has the weight
   input.map(row => {
     let parent = row.shift()
     let name =  parent.split(' ')[0]
+    let children = row.length > 0 ? row : ''
     let weight = parseInt(parent.split(' ')[1].replace(/[()]/g, ''))
-    //see if it already exists, if it does, add the weight
     let possibleEntry = tower.filter(item => item.name === name)
+
+    //see if it already exists, if it does, add the weight
     if(typeof possibleEntry[0] !== 'undefined'){
       possibleEntry[0].weight = weight
     } else {
-      tower.push({name: name , weight: weight, parent: ''})
+      tower.push({name: name , weight: weight, parent: '', children: children})
     }
 
+    //if the entry contians childred process them
     if(row.length > 0){
+
       processChildren(row, name)
     }
   })
