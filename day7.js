@@ -2,7 +2,6 @@ var fs = require('fs'),
     readStream = fs.createReadStream('./dataInput/day7.txt'),
     input = [],
     tower = [];
-// var testData = [[ 'bcawzmn (2980)',  'dualr',  'zacca',  'kodtvsj',  'lkvju',  'twumak',  'vlhsdy' ], ['some (524)']]
 
 readStream.on('data', function(chunk) {
   input+= chunk;
@@ -12,19 +11,19 @@ readStream.on('end', function() {
   // console.log(checkAll(prepareArray(input)))
   // parseInput(input).map(row => console.log(row))
   processParents(parseInput(input))
-  // console.log(tower)
+  // processParents(input)
+  console.log(tower)
+  console.log(tower.filter(item => item.parent === ''))
 });
 
 function parseInput(input){
   //parses the input
-  return input.split('\n').map(row => row.split(', ')).map(row => row.map(entry => entry.split(' \-\> ')[0])).sort((i,j) => {
+  return input.split('\n').map(row => row.split(', ')).map(row => row.map(entry => entry.split(' \-\> ')).reduce((prev,curr) => prev.concat(curr))).sort((i,j) => {
     if(i.length > j.length){ return 1}
     if(i.length < j.length){ return -1}
     return 0
   })
 }
-
-var here = 0
 
 function processParents(input){
   //the first one has the weight
@@ -32,13 +31,11 @@ function processParents(input){
     let parent = row.shift()
     let name =  parent.split(' ')[0]
     let weight = parseInt(parent.split(' ')[1].replace(/[()]/g, ''))
-
     //see if it already exists, if it does, add the weight
     let possibleEntry = tower.filter(item => item.name === name)
     if(typeof possibleEntry[0] !== 'undefined'){
-      possibleEntry.weight = weight
+      possibleEntry[0].weight = weight
     } else {
-      here++
       tower.push({name: name , weight: weight, parent: ''})
     }
 
