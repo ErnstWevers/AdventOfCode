@@ -9,7 +9,7 @@ readStream.on('data', function(chunk) {
 
 readStream.on('end', function() {
   processEntries(parseInput(input))
-  // console.log(tower)
+  console.log(tower)
   console.log(tower.filter(item => item.parent === ''))
 });
 
@@ -27,7 +27,7 @@ function processEntries(input){
   input.map(row => {
     let parent = row.shift()
     let name =  parent.split(' ')[0]
-    let children = row.length > 0 ? row : ''
+    let children = row.length > 0 ? row : null
     let weight = parseInt(parent.split(' ')[1].replace(/[()]/g, ''))
     let possibleEntry = tower.find(item => item.name === name)
 
@@ -40,7 +40,6 @@ function processEntries(input){
 
     //if the entry contians childred process them
     if(row.length > 0){
-
       processChildren(row, name)
     }
   })
@@ -59,8 +58,10 @@ function processChildren(row, name){
   })
 }
 
-//recurse throught the branch and reduce it to a single weight
-function reduceBranch(name){
+//checklevel: check all the children for total weight and move into the incorrect branch
+
+//recurse throught the branch and return a single weight
+function branchWeight(name){
 
 }
 
