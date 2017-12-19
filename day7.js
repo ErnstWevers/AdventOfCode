@@ -29,11 +29,11 @@ function processEntries(input){
     let name =  parent.split(' ')[0]
     let children = row.length > 0 ? row : ''
     let weight = parseInt(parent.split(' ')[1].replace(/[()]/g, ''))
-    let possibleEntry = tower.filter(item => item.name === name)
+    let possibleEntry = tower.find(item => item.name === name)
 
     //see if it already exists, if it does, add the weight
-    if(typeof possibleEntry[0] !== 'undefined'){
-      possibleEntry[0].weight = weight
+    if(typeof possibleEntry !== 'undefined'){
+      possibleEntry.weight = weight
     } else {
       tower.push({name: name , weight: weight, parent: '', children: children})
     }
@@ -49,12 +49,22 @@ function processEntries(input){
 function processChildren(row, name){
   row.map(entry => {
     //see if it already exists, if it does, add the parents
-    let possibleEntry = tower.filter(item => item.name === entry)
+    let possibleEntry = tower.find(item => item.name === entry)
     // typeof myVar != 'undefined'
-    if(typeof possibleEntry[0] !== 'undefined'){
-      possibleEntry[0].parent = name
+    if(typeof possibleEntry !== 'undefined'){
+      possibleEntry.parent = name
     } else {
       tower.push({name: entry, weight: 0, parent: name})
     }
   })
+}
+
+//recurse throught the branch and reduce it to a single weight
+function reduceBranch(name){
+
+}
+
+//find the next eligible talget for reducing
+function nextEligible(){
+
 }
