@@ -1,7 +1,8 @@
 var fs = require('fs'),
     readStream = fs.createReadStream('./dataInput/day8.txt'),
     input = [],
-    register = [];
+    register = [],
+    highest = 0;
 
 readStream.on('data', function(chunk) {
   input+= chunk;
@@ -11,6 +12,7 @@ readStream.on('end', function() {
   evaluateInput(parseInput(input))
   // console.log(parseInput(input))
   console.log(sortResults(register))
+  console.log(highest)
 });
 
 function parseInput(input){
@@ -43,6 +45,7 @@ function evaluateInput(input){
     let toEdit = register.find(item => item.name === entry.targ)
     if(eval(`${toCheck.value} ${entry.func}`)){
       toEdit.value += entry.add
+      if(toEdit.value > highest){highest = toEdit.value}
     }
   })
 }
