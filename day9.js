@@ -1,7 +1,8 @@
-var fs = require('fs'),
-    testing = false,
-    readStream = testing? fs.createReadStream('./dataInput/testData.txt') : fs.createReadStream('./dataInput/day9.txt'),
-    input = [];
+var testing = true,
+    fs = require('fs'),
+    readStream = testing ? fs.createReadStream('./dataInput/testData.txt') : fs.createReadStream('./dataInput/day9.txt'),
+    input = [],
+    groupScore;
 
 readStream.on('data', function(chunk) {
   input+= chunk;
@@ -9,10 +10,11 @@ readStream.on('data', function(chunk) {
 
 readStream.on('end', function() {
   console.log(cleanUp(input))
+  console.log(reduceGroup(cleanUp(input)))
 });
 
 function cleanUp(input){
-  return removeTrash(removeIgnore(input.split(''))).join('')
+  return removeTrash(removeIgnore(input.split('')))
 }
 
 function removeIgnore(input){
@@ -27,16 +29,39 @@ function removeIgnore(input){
 
 function removeTrash(input){
   for(let i = 0; i < input.length; i++){
+    //remove everything between < and >
     if(input[i] === '<'){
       let trashy = 1
       while(input[i+trashy] !== '>'){ trashy++ }
       input.splice(i,trashy+1)
       i--
     }
+    //get rid of all the commas
     if(input[i]==='\,'){
       input.splice(i,1)
       i--
     }
   }
   return input
+}
+
+function reduceGroup(input){
+  console.log('I was called with this input : ' + input)
+  let group = input.slice(1,findGroup(input))
+  console.log(group)
+  if(group.length > 0){
+    reduceGroup(group)
+  }
+  input.splice(0,findGroup(input)+1)
+  return input
+}
+
+function findGroup(input){
+  let position = 0
+  let rightEnd = 1
+  while(rightEnd > 0){
+    position++
+    rightEnd = input[position] === '{' ? rightEnd+1 : rightEnd-1
+  }
+  return position
 }
