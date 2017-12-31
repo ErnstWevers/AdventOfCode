@@ -27,19 +27,20 @@ function cleanUp(input){
 }
 
 function traceSteps(input){
+  var maxDis = 0;
   input.map(step =>{
     let coordsTrans = transpose[step]
     position[0]+=coordsTrans[0]
     position[1]+=coordsTrans[1]
+    maxDis = findSteps(position) > maxDis ? findSteps(position) : maxDis
   })
+  console.log("Largest number of steps away is: " + maxDis)
 }
 
 function findSteps(position){
   position = position.map(coord => Math.abs(coord))
-  console.log(position)
   let diagonal = Math.min.apply(null, position)
   position = position.map(coord => coord - diagonal)
-  console.log(position)
   let straight = Math.max.apply(null,position)/2 || 0
   return (diagonal + straight)
 }
