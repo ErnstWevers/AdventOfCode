@@ -9,8 +9,8 @@ readStream.on('data', function(chunk) {
 });
 
 readStream.on('end', function() {
+  console.log('I was called with this input : ' + input)
   console.log(cleanUp(input))
-  console.log(reduceGroup(cleanUp(input)))
 });
 
 function cleanUp(input){
@@ -46,9 +46,7 @@ function removeTrash(input){
 }
 
 function reduceGroup(input){
-  console.log('I was called with this input : ' + input)
   let group = input.slice(1,findGroup(input))
-  console.log(group)
   if(group.length > 0){
     reduceGroup(group)
   }
